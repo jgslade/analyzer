@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import pwd
 import os
 import sqlite3 as lite
@@ -10,6 +12,7 @@ previousProgram="none"
 programList=[]
 setMouse=""
 mouseDefault="F3"
+currentMode="F3"
 newMode=[]
 newColor=[]
 newBut1=[]
@@ -54,6 +57,7 @@ def activeWindow(process):
     (windowName, err) = window.communicate()
     return windowName
 
+#formats the active window name for comparison
 def formatName(appName):
     for i in range(len(specialCharacters)):
         if specialCharacters[0] in activeWindow(program):
@@ -74,18 +78,22 @@ while True:
     for i in range(len(programList)):
         if (formatName(program)==previousProgram):
             continue
-        elif (programList[1] == formatName(program)):
-            print("Setting mouse to %s."%(newMode[1]))
+        elif (formatName(program) in programList):
+            pos=programList.index(formatName(program))
+            print("Setting mouse to %s."%(newMode[pos]))
             print(formatName(program))
-            subprocess.Popen(['ratslap', '--select', newMode[1]])
+            subprocess.Popen(['ratslap', '--modify', newMode[pos], '-c', newColor[pos], '-4', newG4[pos], '-5', newG5[pos], '-6', newG6[pos], '-7', newG7[pos], '-8', newG8[pos], '-9', newG9[pos],'--select', newMode[pos]])
             previousProgram=formatName(program)
-        elif (programList[2] == formatName(program)):
-            print("Setting mouse to %s."%(newMode[2]))
-            print(formatName(program))
-            subprocess.Popen(['ratslap', '--select', newMode[2]])
-            previousProgram=formatName(program)
+            currentMode=newMode[pos]
+            print(currentMode)
         else:
-            print("Setting mouse to %s."%(mouseDefault))
-            print(formatName(program))
-            subprocess.Popen(['ratslap', '--select', newMode[0]])
-            previousProgram=formatName(program)
+            if (currentMode == mouseDefault):
+                previousProgram=formatName(program)
+                continue
+            else:
+                print("Mouse currently set to: %s."%(currentMode))
+                print("Setting mouse to %s."%(mouseDefault))
+                print(formatName(program))
+                subprocess.Popen(['ratslap', '--select', newMode[0]])
+                previousProgram=formatName(program)
+                currentMode=mouseDefault
