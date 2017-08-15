@@ -59,16 +59,10 @@ def activeWindow(process):
 
 #formats the active window name for comparison
 def formatName(appName):
-    for i in range(len(specialCharacters)):
-        if specialCharacters[0] in activeWindow(program):
-            reverse=activeWindow(program)[::-1]
-            trunc=(reverse.split(specialCharacters[0])[0]).strip()[::-1]
-        elif specialCharacters[1] in activeWindow(program):
-            reverse=activeWindow(program)[::-1]
-            trunc=(reverse.split(specialCharacters[1])[0]).strip()[::-1]
-        else:
-            trunc=activeWindow(program).strip()
-            break
+    reverse=activeWindow(program)[::-1]
+    trunc=(reverse.split(specialCharacters[0])[0]).strip()[::-1]
+    reverse=trunc[::-1]
+    trunc=(reverse.split(specialCharacters[1])[0]).strip()[::-1]
     return(trunc)
 
 
