@@ -46,8 +46,8 @@ with getList:
         newG7.append(app['G7'])
         newG8.append(app['G8'])
         newG9.append(app['G9'])
-print(programList)
-print(newMode)
+for i in range(len(programList)):
+    print ("%s: %s; %s"%(programList[i], newMode[i], newColor[i]))
 
 
 #Returns the active window name
